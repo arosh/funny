@@ -3,25 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <style>
+        li {
+            font-size: 16px;
+        }
+        input {
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            outline: none;
+            padding: 4px 0;
+            margin: 0;
+            font-size: 16px;
+        }
+        blockquote {
+            font-style: inherit;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="vue-root">
-        <ul>
-            <li>はいプロ</li>
-            <li>世界一<input v-model="text1">が上手</li>
-            <li><input v-model="text2">界のtourist</li>
-            <li><input v-model="text3">の終焉を告げる者</li>
-            <li>実質<input v-model="text4"></li>
-            <li><input v-model="text5">ために生まれてきた男</li>
-        </ul>
-        <p>{{message}}</p>
+    <div class="mdl-layout mdl-js-layout">
+        <main class="mdl-layout__content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <div class="mdl-cell mdl-cell--8-col">
+                    <div id="vue-root">
+                        <ul>
+                            <li>はいプロ</li>
+                            <li>世界一<input v-model="text1">が上手</li>
+                            <li><input v-model="text2">界のtourist</li>
+                            <li><input v-model="text3">の終焉を告げる者</li>
+                            <li>実質<input v-model="text4"></li>
+                            <li><input v-model="text5">ために生まれてきた男</li>
+                        </ul>
+                        <blockquote>
+                            {{message}}
+                        </blockquote>
+                    </div>
+                    <div id="tweetButton"></div>
+                </div>
+            </div>
+        </main>
     </div>
-    <div id="tweetButton"></div>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <script>
+        !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');
+    </script>
     <script src="https://unpkg.com/vue@2.2.6/dist/vue.min.js"></script>
     <!--<script src="https://unpkg.com/vue@2.2.6/dist/vue.js"></script>-->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script>
         new Vue({
             el: '#vue-root',
@@ -37,9 +70,9 @@
                     return `はいプロ 世界一${this.text1}が上手 ${this.text2}界のtourist ${this.text3}の終焉を告げる者 実質${this.text4} ${this.text5}ために生まれてきた男`;
                 }
             },
-        }).$watch(function() {
-                return [this.text1, this.text2, this.text3, this.text4, this.text5]
-            }, function () {
+        }).$watch(function () {
+            return [this.text1, this.text2, this.text3, this.text4, this.text5]
+        }, function () {
             const message = this.message;
             // http://stackoverflow.com/a/10551031
             $('#tweetButton iframe').remove();
@@ -51,7 +84,7 @@
                 .attr('data-size', 'large');
             $('#tweetButton').append(tweetButton);
             let func;
-            func = function() {
+            func = function () {
                 if (window.twttr === undefined) {
                     setTimeout(func, 50);
                 } else {
