@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <style>
         li {
             font-size: 16px;
         }
+
         input {
             border: none;
             border-bottom: 1px solid rgba(0, 0, 0, .12);
@@ -20,12 +22,22 @@
             margin: 0;
             font-size: 16px;
         }
+
         input:focus {
             border-bottom: 2px solid rgb(0, 0, 0);
             padding-bottom: 3px;
         }
+
         blockquote {
             font-style: inherit;
+        }
+
+        .mdl-button--twitter {
+            color: rgb(255, 255, 255);
+            background-color: rgb(85, 172, 238);
+        }
+        .mdl-button--twitter:hover {
+            background-color: rgb(85, 172, 238);
         }
     </style>
 </head>
@@ -46,16 +58,19 @@
                             <li><input v-model="text5">ために生まれてきた男</li>
                         </ul>
                         <blockquote>{{message}}</blockquote>
+                        <a v-bind:href="twitterUrl" target="_blank" rel="noreferrer noopener"
+                            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--twitter">
+                            <i class="fa fa-twitter fa-lg"></i> ツイート
+                        </a>
                     </div>
-                    <div id="tweetButton"></div>
                 </div>
             </div>
         </main>
     </div>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     <script src="https://unpkg.com/vue@2.2.6/dist/vue.min.js"></script>
     <!--<script src="https://unpkg.com/vue@2.2.6/dist/vue.js"></script>-->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+    <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
     <script>
         new Vue({
             el: '#vue-root',
@@ -69,31 +84,12 @@
             computed: {
                 message() {
                     return `はいプロ 世界一${this.text1}が上手 ${this.text2}界のtourist ${this.text3}の終焉を告げる者 実質${this.text4} ${this.text5}ために生まれてきた男`;
+                },
+                twitterUrl() {
+                    return `http://twitter.com/intent/tweet?url=${encodeURIComponent('https://arosh.github.io/funny/tourist.html')}&text=${this.message}`;
                 }
             },
-        }).$watch(function () {
-            return [this.text1, this.text2, this.text3, this.text4, this.text5]
-        }, function () {
-            const message = this.message;
-            // http://stackoverflow.com/a/10551031
-            $('#tweetButton iframe').remove();
-            const tweetButton = $('<a></a>')
-                .addClass('twitter-share-button')
-                .attr('href', 'https://twitter.com/share')
-                .attr('data-url', 'https://arosh.github.io/funny/tourist.html')
-                .attr('data-text', message)
-                .attr('data-size', 'large');
-            $('#tweetButton').append(tweetButton);
-            let func;
-            func = function () {
-                if (window.twttr === undefined) {
-                    setTimeout(func, 50);
-                } else {
-                    twttr.widgets.load();
-                }
-            }
-            func();
-        }, { immediate: true });
+        });
     </script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
