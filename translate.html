@@ -18,7 +18,7 @@
     var button = document.getElementById("run");
     button.addEventListener('click', function() {
         var value = textarea.value;
-        value = value.replace(/\n/g, " ");
+        value = value.replace(/\n+/g, " ");
         value = value.replace(/- /g, "");
         value = value.replace(/ \[\d+]/g, "");
         value = value.replace(/\. /g, ".\n\n");
